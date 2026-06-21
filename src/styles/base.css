@@ -1,0 +1,338 @@
+/* ===========================================================================
+   Base: reset, typography, shared primitives (buttons, cards, chips, layout).
+   ===========================================================================*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  background: var(--rc-green-900);
+  color: var(--rc-white);
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+input,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+p {
+  margin: 0;
+}
+
+/* ---- Layout primitives ---- */
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+.col {
+  display: flex;
+  flex-direction: column;
+}
+.stack > * + * {
+  margin-top: var(--sp-4);
+}
+.grow {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.between {
+  justify-content: space-between;
+}
+.center {
+  align-items: center;
+  justify-content: center;
+}
+.wrap {
+  flex-wrap: wrap;
+}
+.muted {
+  color: var(--s-text-dim);
+}
+.faint {
+  color: var(--s-text-faint);
+}
+.num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* ---- App shell ---- */
+.app {
+  min-height: 100%;
+  background: var(--s-bg-grad, var(--s-bg));
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--s-line);
+  background: color-mix(in srgb, var(--s-bg) 80%, transparent);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-family: var(--font-brand);
+  letter-spacing: 0.2px;
+}
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: linear-gradient(150deg, var(--rc-green-500), var(--rc-green-700));
+  color: #f4f2ec;
+  flex: none;
+  box-shadow: var(--s-shadow);
+}
+.brand-name {
+  font-size: 18px;
+  font-weight: 700;
+}
+.brand-sub {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--s-text-dim);
+  font-family: var(--font-ui);
+}
+
+/* ---- Mode switch (demo navigation between surfaces) ---- */
+.modeswitch {
+  display: inline-flex;
+  background: color-mix(in srgb, var(--s-text) 8%, transparent);
+  border: 1px solid var(--s-line);
+  border-radius: var(--r-pill);
+  padding: 3px;
+  gap: 2px;
+}
+.modeswitch button {
+  padding: 8px 14px;
+  border-radius: var(--r-pill);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--s-text-dim);
+}
+.modeswitch button.active {
+  background: var(--s-accent);
+  color: var(--s-accent-ink);
+}
+
+/* ---- Cards ---- */
+.card {
+  background: var(--s-card);
+  border: 1px solid var(--s-line);
+  border-radius: var(--r-lg);
+  padding: var(--sp-5);
+  box-shadow: var(--s-shadow);
+}
+.card-pad-sm {
+  padding: var(--sp-4);
+}
+.card-title {
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--s-text-dim);
+  font-weight: 700;
+  margin-bottom: var(--sp-3);
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  min-height: var(--tap-min);
+  padding: 0 var(--sp-5);
+  border-radius: var(--r-md);
+  font-size: 16px;
+  font-weight: 700;
+  transition: transform 0.05s ease, filter 0.15s ease, background 0.15s ease;
+  border: 1px solid transparent;
+}
+.btn:active {
+  transform: translateY(1px) scale(0.995);
+}
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+.btn-primary {
+  background: var(--rc-green-600);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: var(--rc-green-700);
+}
+.btn-green {
+  background: var(--rc-green-600);
+  color: #fff;
+}
+.btn-green:hover {
+  background: var(--rc-green-700);
+}
+.btn-ghost {
+  background: color-mix(in srgb, var(--s-text) 7%, transparent);
+  color: var(--s-text);
+  border-color: var(--s-line);
+}
+.btn-danger {
+  background: color-mix(in srgb, var(--rc-danger) 16%, transparent);
+  color: var(--rc-danger);
+  border: 1px solid color-mix(in srgb, var(--rc-danger) 45%, transparent);
+}
+.btn-lg {
+  min-height: var(--tap-lg);
+  font-size: 19px;
+  padding: 0 var(--sp-6);
+}
+.btn-block {
+  width: 100%;
+}
+.btn-sm {
+  min-height: 40px;
+  font-size: 14px;
+  padding: 0 var(--sp-4);
+  border-radius: var(--r-md);
+}
+.btn-row {
+  min-height: 34px;
+  font-size: 13px;
+  padding: 0 var(--sp-3);
+  border-radius: var(--r-sm);
+  margin-left: var(--sp-2);
+}
+
+/* ---- Chips / tags ---- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: 700;
+  background: color-mix(in srgb, var(--s-text) 8%, transparent);
+  color: var(--s-text-dim);
+}
+.chip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.tag-restricted {
+  color: var(--rc-warning);
+  background: color-mix(in srgb, var(--rc-warning) 16%, transparent);
+}
+.tag-unrestricted {
+  color: var(--rc-green-400);
+  background: color-mix(in srgb, var(--rc-green-400) 16%, transparent);
+}
+.tag-passthrough {
+  color: var(--fund-passthrough);
+  background: color-mix(in srgb, var(--fund-passthrough) 16%, transparent);
+}
+
+/* ---- Forms ---- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--s-text-dim);
+}
+.input {
+  height: var(--tap-min);
+  padding: 0 var(--sp-4);
+  border-radius: var(--r-md);
+  border: 1px solid var(--s-line);
+  background: var(--s-card);
+  color: var(--s-text);
+}
+.input:focus {
+  outline: none;
+  box-shadow: var(--ring);
+  border-color: var(--s-accent);
+}
+
+/* ---- Misc ---- */
+.divider {
+  height: 1px;
+  background: var(--s-line);
+  border: 0;
+  margin: var(--sp-4) 0;
+}
+.spinner {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 3px solid color-mix(in srgb, var(--s-text) 25%, transparent);
+  border-top-color: var(--s-accent);
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

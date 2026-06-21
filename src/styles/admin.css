@@ -1,0 +1,648 @@
+/* ===========================================================================
+   Admin dashboard — the treasurer's compliance view. Calm, clear, serious.
+   ===========================================================================*/
+
+.admin {
+  flex: 1;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.admin-head h1 {
+  font-family: var(--font-brand);
+  font-size: 28px;
+}
+.admin-head .sub {
+  color: var(--s-text-dim);
+  margin-top: 2px;
+}
+
+/* ---- Tabs ---- */
+.tabs {
+  display: flex;
+  gap: var(--sp-1);
+  border-bottom: 1px solid var(--s-line);
+  overflow-x: auto;
+}
+.tab {
+  padding: var(--sp-3) var(--sp-4);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--s-text-dim);
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+}
+.tab.active {
+  color: var(--rc-green-700);
+  border-bottom-color: var(--rc-gold-500);
+}
+
+/* ---- Stat row ---- */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-4);
+}
+.stat {
+  background: var(--s-card);
+  border: 1px solid var(--s-line);
+  border-radius: var(--r-lg);
+  padding: var(--sp-4);
+  box-shadow: var(--s-shadow);
+}
+.stat .label {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--s-text-dim);
+  font-weight: 700;
+}
+.stat .value {
+  font-size: 26px;
+  font-weight: 800;
+  margin-top: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.stat .value.green {
+  color: var(--rc-green-600);
+}
+.stat .value.gold {
+  color: var(--rc-gold-600);
+}
+.stat .value.warn {
+  color: var(--rc-warning);
+}
+.stat .foot {
+  font-size: 12px;
+  color: var(--s-text-dim);
+  margin-top: 4px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--sp-5);
+  align-items: start;
+}
+
+/* ---- Fund breakdown bars ---- */
+.fundbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+.fundbar-row .top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+.fundbar-row .top .nm {
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.fundbar-row .track {
+  height: 12px;
+  border-radius: var(--r-pill);
+  background: var(--rc-cream-100);
+  overflow: hidden;
+}
+.fundbar-row .fill {
+  height: 100%;
+  border-radius: var(--r-pill);
+}
+.swatch-sm {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  flex: none;
+}
+
+/* ---- Column chart (by night / by operator) ---- */
+.chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 200px;
+  padding-top: var(--sp-4);
+}
+.chart-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  justify-content: flex-end;
+  min-width: 0;
+}
+.chart-col .bar {
+  width: 100%;
+  max-width: 34px;
+  border-radius: 6px 6px 0 0;
+  background: linear-gradient(180deg, var(--rc-green-500), var(--rc-green-700));
+  transition: height 0.3s ease;
+  min-height: 2px;
+}
+.chart-col .bar.low {
+  background: linear-gradient(180deg, var(--rc-warning), #c98718);
+}
+.chart-col .xl {
+  font-size: 11px;
+  color: var(--s-text-dim);
+  white-space: nowrap;
+}
+.chart-col .vl {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--s-text);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.chart-col:hover .vl {
+  opacity: 1;
+}
+
+/* ---- Tables ---- */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.table th {
+  text-align: left;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--s-text-dim);
+  padding: var(--sp-2) var(--sp-3);
+  border-bottom: 1px solid var(--s-line);
+}
+.table td {
+  padding: var(--sp-3);
+  border-bottom: 1px solid var(--s-line);
+}
+.table td.num,
+.table th.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.pill {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: 700;
+}
+.pill-ok {
+  background: color-mix(in srgb, var(--rc-success) 16%, transparent);
+  color: var(--rc-success-deep);
+}
+.pill-warn {
+  background: color-mix(in srgb, var(--rc-warning) 18%, transparent);
+  color: #9a6c0f;
+}
+.pill-muted {
+  background: var(--rc-cream-100);
+  color: var(--s-text-dim);
+}
+
+/* ---- Management forms (options / team) ---- */
+.manage-form {
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  align-items: center;
+}
+.manage-form .input {
+  min-width: 160px;
+}
+.manage-form select.input {
+  min-width: 220px;
+}
+
+/* ---- Search / filter ---- */
+.toolbar {
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  align-items: center;
+}
+.search {
+  flex: 1;
+  min-width: 220px;
+}
+
+/* ---- Restricted fund cards ---- */
+.ringfence {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-4);
+}
+.ringfence .rf {
+  border: 1px solid var(--s-line);
+  border-left: 4px solid var(--rc-warning);
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+  background: var(--s-card);
+}
+.ringfence .rf.passthrough {
+  border-left-color: var(--fund-passthrough);
+}
+
+/* ---- Pass-through pill ---- */
+.pill-pass {
+  background: color-mix(in srgb, var(--fund-passthrough) 16%, transparent);
+  color: #9c3a68;
+}
+
+/* ---- Segmented control ---- */
+.seg {
+  display: inline-flex;
+  background: var(--rc-cream-100);
+  border: 1px solid var(--rc-cream-200);
+  border-radius: var(--r-pill);
+  padding: 3px;
+  gap: 2px;
+}
+.seg button {
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--s-text-dim);
+}
+.seg button.active {
+  background: var(--rc-green-600);
+  color: #fff;
+}
+
+/* ---- Horizontal bar chart (by donation option) ---- */
+.hbars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+.hbar-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-bottom: 6px;
+}
+.hbar-name {
+  font-weight: 700;
+}
+.hbar-amt {
+  margin-left: auto;
+  font-weight: 700;
+}
+.hbar-track {
+  height: 22px;
+  border-radius: 6px;
+  background: var(--rc-cream-100);
+  overflow: hidden;
+}
+.hbar-fill {
+  height: 100%;
+  border-radius: 6px;
+  min-width: 4px;
+  transition: width 0.3s ease;
+}
+
+/* ---- Stacked column (by type over weeks) ---- */
+.stackbar {
+  width: 100%;
+  max-width: 36px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px 6px 0 0;
+  overflow: hidden;
+}
+.stack-seg {
+  width: 100%;
+  min-height: 2px;
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+}
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--s-text-dim);
+  font-weight: 600;
+}
+
+/* ---- Line / area chart (running total) ---- */
+.linechart-svg {
+  width: 100%;
+  height: 180px;
+  display: block;
+}
+.linechart-area {
+  fill: color-mix(in srgb, var(--rc-green-500) 18%, transparent);
+}
+.linechart-line {
+  fill: none;
+  stroke: var(--rc-green-600);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+.linechart-x {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--s-text-dim);
+  margin-top: 6px;
+}
+.linechart-peak {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--rc-green-700);
+  margin-top: var(--sp-2);
+}
+
+/* ---- Reports: range picker + compliance doc ---- */
+.range-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
+}
+.chip-btn {
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--rc-cream-200);
+  background: var(--rc-cream-50);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--s-text-dim);
+}
+.chip-btn.active {
+  background: var(--rc-green-600);
+  color: #fff;
+  border-color: transparent;
+}
+.range-custom {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+.range-custom .field {
+  min-width: 150px;
+}
+.report-doc h2 {
+  font-family: var(--font-brand);
+  font-size: 24px;
+  color: var(--rc-green-900);
+}
+.report-head {
+  border-bottom: 2px solid var(--rc-green-700);
+  padding-bottom: var(--sp-3);
+  margin-bottom: var(--sp-4);
+}
+.report-h3 {
+  font-size: 16px;
+  color: var(--rc-green-800);
+  margin-top: var(--sp-5);
+  margin-bottom: var(--sp-2);
+}
+.report-foot {
+  margin-top: var(--sp-5);
+  border-top: 1px solid var(--s-line);
+  padding-top: var(--sp-3);
+  font-size: 12px;
+}
+
+/* ---- Treasury: composition of the bank balance ---- */
+.comp-figure {
+  font-family: var(--font-brand);
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--rc-green-900);
+  line-height: 1.05;
+}
+.comp-sub {
+  color: var(--s-text-dim);
+  margin-bottom: var(--sp-4);
+}
+.comp-row-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--s-text-faint);
+  margin-bottom: var(--sp-2);
+}
+.comp-avail-note {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 11px;
+  color: var(--s-text-faint);
+}
+.comp-bar {
+  display: flex;
+  height: 20px;
+  border-radius: var(--r-pill);
+  overflow: hidden;
+  background: var(--rc-cream-100);
+}
+.comp-seg {
+  min-width: 3px;
+  transition: flex-grow 0.35s ease;
+}
+.comp-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-4);
+  margin-top: var(--sp-2);
+}
+
+/* ---- Treasury: fund pots ---- */
+.pots {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-4);
+}
+.pot {
+  border: 1px solid var(--s-line);
+  border-left: 4px solid var(--rc-cream-200);
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+  background: var(--s-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+.pot-outstanding,
+.pot-partial {
+  border-left-color: var(--rc-warning);
+}
+.pot-complete {
+  border-left-color: var(--rc-success);
+}
+.pot-over_disbursed {
+  border-left-color: var(--rc-danger);
+}
+.pot-figures {
+  display: flex;
+  gap: var(--sp-4);
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--s-text-dim);
+}
+.pot-figures strong {
+  display: block;
+  font-size: 16px;
+  color: var(--s-text);
+}
+.pot-track {
+  height: 8px;
+  border-radius: var(--r-pill);
+  background: var(--rc-cream-100);
+  overflow: hidden;
+}
+.pot-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--rc-green-500), var(--rc-green-700));
+  border-radius: var(--r-pill);
+}
+.pot-warn {
+  font-size: 13px;
+  color: var(--rc-danger-deep);
+  font-weight: 600;
+}
+.pot .btn {
+  align-self: flex-start;
+}
+.pill-danger {
+  background: color-mix(in srgb, var(--rc-danger) 18%, transparent);
+  color: var(--rc-danger-deep);
+}
+.voided-row td {
+  color: var(--s-text-faint);
+  text-decoration: line-through;
+}
+
+/* ---- Modal ---- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(10, 38, 28, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-4);
+}
+.modal {
+  width: 100%;
+  max-width: 440px;
+  background: var(--rc-white);
+  border-radius: var(--r-lg);
+  padding: var(--sp-5);
+  box-shadow: var(--shadow-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  max-height: 90vh;
+  overflow: auto;
+}
+.modal .field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--s-text-dim);
+}
+
+.pot-commit {
+  font-size: 13px;
+  color: var(--s-text-dim);
+}
+.pot-commit strong {
+  color: var(--rc-green-700);
+}
+
+/* ---- Period collections ---- */
+.period-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-3);
+}
+.period-label {
+  font-weight: 700;
+  font-size: 15px;
+  min-width: 150px;
+  text-align: center;
+}
+.period-total {
+  font-size: 18px;
+  color: var(--rc-green-700);
+}
+
+/* ---- Scheduled tick box ---- */
+.tickbox {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--rc-green-600);
+  cursor: pointer;
+}
+.overdue-row td {
+  color: var(--rc-danger-deep);
+}
+
+.print-only {
+  display: none;
+}
+
+@media print {
+  .topbar,
+  .no-print,
+  .tabs,
+  .admin-head .btn {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  body,
+  .app,
+  .admin {
+    background: #fff !important;
+  }
+  .report-doc {
+    box-shadow: none;
+    border: none;
+    padding: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+  .ringfence,
+  .pots {
+    grid-template-columns: 1fr;
+  }
+}

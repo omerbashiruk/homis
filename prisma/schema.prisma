@@ -1,0 +1,166 @@
+// Ramadan Close — data models (Dev A owns src/db/).
+// Mirrors the §6 ER diagram. Money is ALWAYS stored as integer pence.
+// Run `prisma generate` after install (wired via postinstall), `prisma migrate dev` once a DB is up.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum FundType {
+  zakat
+  zakat_al_fitr
+  sadaqah
+  fidyah_kaffarah
+  building
+  general
+  passthrough
+}
+
+enum OperatorRole {
+  operator
+  admin
+  trustee
+}
+
+enum SessionStatus {
+  open
+  closed
+}
+
+// NOTE: `voided` extends the §6 enum (confirmed/failed/refunded). It represents
+// an `undo` — a misclassification reversal before session close — which is
+// distinct from a card decline (`failed`) and a money-returned `refunded`.
+// Only `confirmed` donations count toward income aggregates.
+enum DonationStatus {
+  confirmed
+  failed
+  refunded
+  voided
+}
+
+enum SubscriptionStatus {
+  none
+  trialing
+  active
+  past_due
+  canceled
+}
+
+// ---------------------------------------------------------------------------
+// Models
+// ---------------------------------------------------------------------------
+
+model Mosque {
+  id                 String             @id @default(uuid())
+  name               String
+  bankAccount        String?            @map("bank_account")
+  stripeCustomerId   String?            @map("stripe_customer_id")
+  subscriptionStatus SubscriptionStatus @default(none) @map("subscription_status")
+  createdAt          DateTime           @default(now()) @map("created_at")
+
+  operators Operator[]
+  funds     Fund[]
+  sessions  Session[]
+  donors    Donor[]
+
+  @@map("mosque")
+}
+
+model Operator {
+  id       String       @id @default(uuid())
+  mosqueId String       @map("mosque_id")
+  name     String
+  role     OperatorRole @default(operator)
+
+  mosque   Mosque    @relation(fields: [mosqueId], references: [id], onDelete: Cascade)
+  sessions Session[]
+
+  @@index([mosqueId])
+  @@map("operator")
+}
+
+model Fund {
+  id       String   @id @default(uuid())
+  mosqueId String   @map("mosque_id")
+  name     String
+  type     FundType
+  // Legally ringfenced — must only be spent on its stated purpose.
+  restricted Boolean @default(false)
+  // External charity pass-through — NOT mosque income; a liability to forward on.
+  passThrough Boolean @default(false) @map("pass_through")
+  notes      String?
+
+  mosque    Mosque     @relation(fields: [mosqueId], references: [id], onDelete: Cascade)
+  donations Donation[]
+
+  @@unique([mosqueId, name])
+  @@index([mosqueId])
+  @@map("fund")
+}
+
+model Session {
+  id         String        @id @default(uuid())
+  mosqueId   String        @map("mosque_id")
+  operatorId String        @map("operator_id")
+  label      String
+  status     SessionStatus @default(open)
+  startedAt  DateTime      @default(now()) @map("started_at")
+  endedAt    DateTime?     @map("ended_at")
+
+  mosque    Mosque     @relation(fields: [mosqueId], references: [id], onDelete: Cascade)
+  operator  Operator   @relation(fields: [operatorId], references: [id])
+  donations Donation[]
+
+  @@index([mosqueId])
+  @@index([operatorId])
+  @@map("session")
+}
+
+model Donor {
+  id                 String  @id @default(uuid())
+  mosqueId           String  @map("mosque_id")
+  name               String?
+  phone              String?
+  email              String?
+  giftAidDeclaration Boolean @default(false) @map("gift_aid_declaration")
+
+  mosque    Mosque     @relation(fields: [mosqueId], references: [id], onDelete: Cascade)
+  donations Donation[]
+
+  @@index([mosqueId])
+  @@index([mosqueId, phone])
+  @@map("donor")
+}
+
+model Donation {
+  id              String         @id @default(uuid())
+  sessionId       String         @map("session_id")
+  fundId          String         @map("fund_id")
+  donorId         String?        @map("donor_id")
+  amountPence     Int            @map("amount_pence")
+  zettleTxnId     String?        @map("zettle_txn_id")
+  status          DonationStatus @default(confirmed)
+  giftAidEligible Boolean        @default(false) @map("gift_aid_eligible")
+  // Internal draft reference — the idempotency key for the donate path (§4.4).
+  draftRef        String?        @unique @map("draft_ref")
+  createdAt       DateTime       @default(now()) @map("created_at")
+
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  fund    Fund    @relation(fields: [fundId], references: [id])
+  donor   Donor?  @relation(fields: [donorId], references: [id])
+
+  @@index([sessionId])
+  @@index([fundId])
+  @@index([donorId])
+  @@index([zettleTxnId])
+  @@map("donation")
+}

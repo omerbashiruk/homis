@@ -1,0 +1,161 @@
+/* ===========================================================================
+   Onboarding — register → configure → pay → subscribe → pair → ready.
+   ===========================================================================*/
+
+.onb {
+  flex: 1;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--sp-6) var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+.stepper .step {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--s-text-faint);
+  font-size: 13px;
+  font-weight: 700;
+}
+.stepper .dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--rc-cream-100);
+  color: var(--s-text-dim);
+  font-size: 13px;
+  flex: none;
+}
+.stepper .step.active .dot {
+  background: var(--rc-green-600);
+  color: #fff;
+}
+.stepper .step.done .dot {
+  background: var(--rc-success);
+  color: #fff;
+}
+.stepper .step.active,
+.stepper .step.done {
+  color: var(--s-text);
+}
+.stepper .line {
+  flex: 1;
+  height: 2px;
+  background: var(--s-line);
+  min-width: 10px;
+}
+
+.onb-card {
+  background: var(--s-card);
+  border: 1px solid var(--s-line);
+  border-radius: var(--r-lg);
+  padding: var(--sp-6);
+  box-shadow: var(--s-shadow);
+}
+.onb-card h2 {
+  font-family: var(--font-brand);
+  font-size: 24px;
+  margin-bottom: var(--sp-2);
+}
+.onb-card .lead {
+  color: var(--s-text-dim);
+  margin-bottom: var(--sp-5);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-4);
+}
+.form-grid .full {
+  grid-column: 1 / -1;
+}
+
+.fund-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid var(--s-line);
+  border-radius: var(--r-md);
+  margin-bottom: var(--sp-2);
+}
+.fund-toggle .nm {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+}
+.price .big {
+  font-size: 40px;
+  font-weight: 800;
+}
+.price .per {
+  color: var(--s-text-dim);
+}
+.line-item {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--sp-3) 0;
+  border-bottom: 1px dashed var(--s-line);
+}
+.line-item.total {
+  border-bottom: none;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.ready {
+  text-align: center;
+  padding: var(--sp-6);
+}
+.ready .tick {
+  margin: 0 auto var(--sp-4);
+  width: 96px;
+  height: 96px;
+  font-size: 52px;
+}
+
+.pair-state {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-5);
+  border-radius: var(--r-lg);
+  border: 1px dashed var(--s-line);
+  background: color-mix(in srgb, var(--rc-green-500) 5%, transparent);
+}
+.reader-icon {
+  width: 56px;
+  height: 80px;
+  border-radius: 10px;
+  background: linear-gradient(160deg, #1c6a4f, #0f3d2e);
+  border: 2px solid var(--rc-gold-400);
+  flex: none;
+}
+
+@media (max-width: 620px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .stepper .step .lbl {
+    display: none;
+  }
+}

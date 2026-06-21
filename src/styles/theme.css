@@ -1,0 +1,118 @@
+/* ===========================================================================
+   Ramadan Close — design tokens
+   Restrained, modern, smooth (Ramp-inspired): a warm near-neutral base, ONE
+   green accent, muted cohesive fund hues, soft diffuse shadows.
+   Two surfaces: .surface-operator (warm charcoal, low-light hall) and
+   .surface-admin (warm paper). Components read the --s-* surface tokens.
+   ===========================================================================*/
+
+:root {
+  /* --- The single accent: a refined, slightly muted green --- */
+  --rc-green-900: #0c2620;
+  --rc-green-850: #0f3127;
+  --rc-green-800: #103a2c;
+  --rc-green-700: #15543e;
+  --rc-green-600: #1c6e50;
+  --rc-green-500: #2a8a66;
+  --rc-green-400: #58b18d;
+  --rc-green-300: #93d2b8;
+
+  /* --- Gold tokens are now ALIASES of the green accent (one accent only) --- */
+  --rc-gold-600: var(--rc-green-700);
+  --rc-gold-500: var(--rc-green-600);
+  --rc-gold-400: var(--rc-green-400);
+  --rc-gold-300: var(--rc-green-300);
+
+  /* --- Warm neutral "paper" surfaces --- */
+  --rc-cream-50: #faf8f3;
+  --rc-cream-100: #f1eee6;
+  --rc-cream-200: #e6e1d6;
+
+  /* --- Warm ink --- */
+  --rc-ink-900: #1a1813;
+  --rc-ink-700: #45413a;
+  --rc-ink-500: #767069;
+
+  --rc-white: #ffffff;
+
+  /* --- Semantic (minimal, muted). Success reuses the accent. --- */
+  --rc-success: #2a8a66;
+  --rc-success-deep: #176046;
+  --rc-danger: #b8473b;
+  --rc-danger-deep: #8f342b;
+  --rc-warning: #b07d2e;
+  --rc-info: #4a6e8a;
+
+  /* --- Fund hues: muted, cohesive, distinct enough to recognise --- */
+  --fund-zakat: #2e7d72;
+  --fund-zakat_al_fitr: #6a5a86;
+  --fund-sadaqah: #3f6f93;
+  --fund-fidyah_kaffarah: #a07a3c;
+  --fund-building: #9c5e46;
+  --fund-general: #5f6b73;
+  --fund-passthrough: #9c5a72;
+
+  /* Spacing scale */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 72px;
+
+  /* Radii — soft, restrained */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 18px;
+  --r-xl: 24px;
+  --r-pill: 999px;
+
+  /* Type */
+  --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-brand: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-num: "SF Mono", "Roboto Mono", ui-monospace, Menlo, monospace;
+
+  /* Touch targets */
+  --tap-min: 56px;
+  --tap-lg: 76px;
+
+  /* Soft, diffuse shadows (almost flat) */
+  --shadow-1: 0 1px 2px rgba(26, 24, 19, 0.04), 0 4px 14px rgba(26, 24, 19, 0.05);
+  --shadow-2: 0 10px 28px rgba(26, 24, 19, 0.08);
+  --shadow-3: 0 22px 55px rgba(26, 24, 19, 0.14);
+  --ring: 0 0 0 3px rgba(42, 138, 102, 0.35);
+}
+
+/* ---- Operator surface: warm charcoal, high contrast, single green accent ---- */
+.surface-operator {
+  --s-bg: #1a1815;
+  --s-bg-grad: radial-gradient(120% 80% at 50% -10%, #242019 0%, #1a1815 62%);
+  --s-card: #232019;
+  --s-card-raised: #2b271f;
+  --s-line: #36312a;
+  --s-text: #f4f2ec;
+  --s-text-dim: #b4ada1;
+  --s-text-faint: #837c70;
+  --s-accent: var(--rc-green-300);
+  --s-accent-ink: #0c2620;
+  --s-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  color: var(--s-text);
+}
+
+/* ---- Admin surface: warm paper, calm ---- */
+.surface-admin {
+  --s-bg: var(--rc-cream-50);
+  --s-bg-grad: linear-gradient(180deg, #fcfbf7 0%, var(--rc-cream-50) 100%);
+  --s-card: var(--rc-white);
+  --s-card-raised: var(--rc-white);
+  --s-line: var(--rc-cream-200);
+  --s-text: var(--rc-ink-900);
+  --s-text-dim: var(--rc-ink-500);
+  --s-text-faint: #9a958c;
+  --s-accent: var(--rc-green-700);
+  --s-accent-ink: var(--rc-white);
+  --s-shadow: var(--shadow-1);
+  color: var(--s-text);
+}

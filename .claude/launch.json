@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ramadan-close",
+      "runtimeExecutable": "/Users/omerbashir/.local/lib/nodejs/current/bin/node",
+      "runtimeArgs": ["/Users/omerbashir/ramadan-close/node_modules/vite/bin/vite.js", "--host", "--port", "5173"],
+      "port": 5173
+    }
+  ]
+}

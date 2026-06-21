@@ -14,7 +14,7 @@ export function AdminLogin({ onSignIn }: { onSignIn: () => void }) {
     <div className="auth">
       <form className="auth-card" onSubmit={submit}>
         <Link to="/" className="auth-back">
-          ← Ramadan Close
+          ← Homis
         </Link>
         <div className="brand-mark auth-mark" aria-hidden="true">
           ☾

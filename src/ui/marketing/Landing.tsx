@@ -9,7 +9,7 @@ export function Landing() {
           <span className="brand-mark" aria-hidden="true">
             ☾
           </span>
-          <span className="brand-name">Ramadan Close</span>
+          <span className="brand-name">Homis</span>
         </div>
         <nav className="mk-links">
           <a href="#how">How it works</a>
@@ -140,7 +140,7 @@ export function Landing() {
           <span className="brand-mark" aria-hidden="true">
             ☾
           </span>
-          <span className="brand-name">Ramadan Close</span>
+          <span className="brand-name">Homis</span>
         </div>
         <div className="muted">Donation capture for UK mosques · demo build on mock data</div>
       </footer>
